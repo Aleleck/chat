@@ -10,7 +10,7 @@ import {
   query
 } from '@angular/fire/firestore';
 import { filter, from, map, Observable, of, switchMap } from 'rxjs';
-import { ProfileUser } from '../models/user';
+import { ProfileUser } from '../models/user-profile';
 import { AuthService } from './auth.service';
 import { collectionData } from 'rxfire/firestore';
 

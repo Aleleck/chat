@@ -23,6 +23,10 @@ import { MatMenuModule } from '@angular/material/menu';
 import { ProfileComponent } from './components/profile/profile.component';
 import { getStorage, provideStorage } from '@angular/fire/storage';
 import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
+import { DateDisplayPipe } from './pipes/date-display.pipe';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -32,6 +36,7 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
     LandingComponent,
     HomeComponent,
     ProfileComponent,
+    DateDisplayPipe,
   ],
   imports: [
     BrowserModule,
@@ -49,9 +54,11 @@ import { MatAutocomplete, MatAutocompleteModule } from '@angular/material/autoco
     provideStorage(() => getStorage()),
     HotToastModule.forRoot(),
     MatMenuModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatListModule,
+    MatDividerModule
   ],
-  providers: [],
+  providers: [DatePipe],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

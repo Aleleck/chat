@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
-import { ProfileUser } from '../models/user';
+import { ProfileUser } from '../models/user-profile';
 import { Observable, concatMap, map, take } from 'rxjs';
 import { UsersService } from './users.service';
-import { addDoc, collection, query, where } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, orderBy, query, updateDoc, where } from 'firebase/firestore';
 import { user } from 'rxfire/auth';
-import { Chat } from '../models/chats';
+import { Chat, Message } from '../models/chats';
 import { collectionData } from 'rxfire/firestore';
 
 @Injectable({
@@ -46,13 +46,35 @@ export class ChatsService {
     )
   }
 
+  addChatMesssage(chatId: string, message: string):Observable<any>{
+    const ref = collection(this.firestore, 'chats', chatId, 'message');
+    const chatRef = doc(this.firestore, 'chats', chatId);
+    const today = Timestamp.fromDate(new Date());
+    return this.usersServive.currentUserProfile$.pipe(
+      take(1),
+      concatMap((user) => addDoc(ref, {
+        text: message,
+        senderId: user?.uid,
+        sentDate: today
+      })),
+      concatMap(()=> updateDoc(chatRef, {lastMessage: message, lastMessageDate: today}))
+    )
+  }
+
+  getChatMessages$(chatId: string): Observable<Message[]>{
+    const ref = collection(this.firestore, 'chats', chatId, 'messages' );
+    const queryAll = query(ref, orderBy('sentDate', 'asc' ))
+    return collectionData(queryAll) as Observable<Message[]>
+  }
+
   addChatNameAndPic(currentUserId: string, chats: Chat[]): Chat[]{
     chats.forEach(chat => {
-      const otherIndex = chat.userIds .indexOf(currentUserId) === 0 ? 1:  0;
-      const {displayName, photoURL} = chat.users[otherIndex];
-      chat.chatName= displayName;
+      const otherIndex = chat.userIds.indexOf(currentUserId) === 0 ? 1 : 0;
+      const { displayName, photoURL } = chat.users[otherIndex];
+      chat.chatName = displayName;
       chat.chatPic = photoURL;
-    })
+    });
     return chats;
   }
+  
 }
