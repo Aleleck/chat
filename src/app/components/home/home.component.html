@@ -45,10 +45,11 @@
             <ng-container *ngIf="user$ |async as currentUser">
                 <div *ngFor="let message of messages$ | async" class="chat-bubble-container" [ngClass]="{'sender': message.senderId === currentUser.uid}">
                     <div class="chat-bubble">
-                        {{ message.sentData }}
-                        <span class="chat-date">{{message.sentData | dateDisplay}}</span>
+                        {{ message.sentDate }}
+                        <span class="chat-date">{{message.sentDate | dateDisplay}}</span>
                     </div>
                 </div>
+            <div #endOfChat></div>    
             </ng-container>
 
         </div>

@@ -55,9 +55,11 @@
     height: calc(100vh - 270px);
     background: white;
     flex-direction: column;
+    overflow: auto;
 }
 .chat-area > :firt-child{
     margin-top: auto;
+
 }
 
 .input-area > mat-form-field{
