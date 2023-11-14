@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { user } from 'rxfire/auth';
-import { combineLatest, map, startWith, switchMap, of, tap, } from 'rxjs';
+import { combineLatest, map, startWith, switchMap, of, tap, MonoTypeOperatorFunction, OperatorFunction, } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user-profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatsService } from 'src/app/services/chats.service';
@@ -15,8 +15,8 @@ import { UsersService } from 'src/app/services/users.service';
 export class HomeComponent implements OnInit {
   @ViewChild('endOfChat') endOfChat!: ElementRef;
 
-  user$ = this.usersService.currentUserProfile$;
-
+  user$ = this.usersService.currentUserProfile$.pipe(startWith(null));
+  
   searchControl = new FormControl('');
   chatListControl = new FormControl('');
   messageControl = new FormControl('');
@@ -27,17 +27,16 @@ export class HomeComponent implements OnInit {
     this.searchControl.valueChanges.pipe(startWith(''))
   ]).pipe(
     map(([users, user, searchString]) => {
-      // Asegúrate de que user y searchString no sean undefined ni null
-      if (user === undefined || user === null || searchString === undefined || searchString === null) {
+      if (!Array.isArray(users) || user === undefined || user === null || searchString === undefined || searchString === null) {
         return [];
       }
-
-      // Filtra los usuarios basados en la búsqueda y el usuario actual
+  
       return users.filter(u =>
         u.displayName?.toLowerCase().includes(searchString.toLowerCase()) && u.uid !== user.uid
       );
     })
   );
+  
 
   myChats$ = this.chatsService.myChats$;
 
@@ -45,16 +44,17 @@ export class HomeComponent implements OnInit {
     this.chatListControl.valueChanges,
     this.myChats$
   ]).pipe(
-    map(([value, chats]) => chats.find(c => c.id === value?.[0]))
-  )
+    map(([value, chats]) => chats.find((c: any) => c.id === value?.[0]))
+  );
 
   messages$ = this.chatListControl.valueChanges.pipe(
-    map(value => value?.[0]),
-    switchMap(chatId => chatId ? this.chatsService.getChatMessages$(chatId) : of(null)),
-    tap(()=>{
+    map(value => value?.[0] as string | number),
+    switchMap(chatId => chatId ? this.chatsService.getChatMessages$(chatId.toString()) : of(null)),
+    tap(() => {
       this.scrollToBottom();
     })
-  )
+  );
+  
 
 
   constructor(private usersService: UsersService, private chatsService: ChatsService) { }

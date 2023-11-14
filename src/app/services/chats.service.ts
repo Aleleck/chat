@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Firestore } from '@angular/fire/firestore';
 import { ProfileUser } from '../models/user-profile';
-import { Observable, concatMap, map, take } from 'rxjs';
+import { MonoTypeOperatorFunction, Observable, OperatorFunction, of } from 'rxjs';
+import { concatMap, map, filter, take } from 'rxjs/operators';
 import { UsersService } from './users.service';
-import { Timestamp, addDoc, collection, doc, orderBy, query, updateDoc, where } from 'firebase/firestore';
+import { Timestamp, addDoc, collection, doc, orderBy, query, updateDoc, where, DocumentReference } from 'firebase/firestore';
 import { user } from 'rxfire/auth';
 import { Chat, Message } from '../models/chats';
 import { collectionData } from 'rxfire/firestore';
@@ -19,12 +20,13 @@ export class ChatsService {
     const ref = collection(this.firestore, 'chats');
     return this.usersServive.currentUserProfile$.pipe(
       take(1),
+      filter((user: ProfileUser | null): user is ProfileUser => user !== null),
       concatMap(user => addDoc(ref,{
-        userIds :[user?.uid, otherUser?.uid],
+        userIds :[user.uid, otherUser?.uid],
         users:[
           {
-            displayName: user?.displayName ?? '',
-            photoURL: user?.photoURL ?? ''
+            displayName: user.displayName ?? '',
+            photoURL: user.photoURL ?? ''
           },
           {
             displayName: otherUser?.displayName ?? '',
@@ -32,19 +34,26 @@ export class ChatsService {
           }
         ]
       })),
-      map(ref => ref.id)
+      map((ref: DocumentReference) => ref.id)
     )
   }
+  
+  
 
   get myChats$(): Observable<Chat[]> {
     const ref = collection(this.firestore, 'chats');
     return this.usersServive.currentUserProfile$.pipe(
-      concatMap((user) => {
-        const myQuery = query(ref, where('userIds', 'array-contains', user?.uid))
+      take(1),
+      filter((user: ProfileUser | null): user is ProfileUser => user !== null),
+      concatMap(user => {
+        const myQuery = query(ref, where('userIds', 'array-contains', user.uid))
         return collectionData(myQuery, { idField:'id'}) as Observable<Chat[]>
       })
     )
   }
+  
+  
+  
 
   addChatMesssage(chatId: string, message: string):Observable<any>{
     const ref = collection(this.firestore, 'chats', chatId, 'message');
@@ -52,7 +61,8 @@ export class ChatsService {
     const today = Timestamp.fromDate(new Date());
     return this.usersServive.currentUserProfile$.pipe(
       take(1),
-      concatMap((user) => addDoc(ref, {
+      filter((user: ProfileUser | null): user is ProfileUser => user !== null),
+      concatMap(user => addDoc(ref, {
         text: message,
         senderId: user?.uid,
         sentDate: today
@@ -62,7 +72,7 @@ export class ChatsService {
   }
 
   getChatMessages$(chatId: string): Observable<Message[]>{
-    const ref = collection(this.firestore, 'chats', chatId, 'messages' );
+    const ref = collection(this.firestore, 'chats', chatId, 'message' ); // Corregir la ruta a 'message'
     const queryAll = query(ref, orderBy('sentDate', 'asc' ))
     return collectionData(queryAll) as Observable<Message[]>
   }
