@@ -45,7 +45,7 @@
             <ng-container *ngIf="user$ |async as currentUser">
                 <div *ngFor="let message of messages$ | async" class="chat-bubble-container" [ngClass]="{'sender': message.senderId === currentUser.uid}">
                     <div class="chat-bubble">
-                        {{ message.sentDate }}
+                        {{ message.text }}
                         <span class="chat-date">{{message.sentDate | dateDisplay}}</span>
                     </div>
                 </div>
@@ -56,7 +56,7 @@
         <div class="input-area">
             <mat-form-field appearance="outline">
                 <input [formControl]="messageControl" matInput placeholder="Ingrese su mensaje..."
-                    (keydown.enter)="sendMessage( )">
+                    (keydown.enter)="sendMessage()">
                 <button mat-icon-button matSuffix (click)="sendMessage()">
                     <mat-icon>send</mat-icon>
                 </button>
