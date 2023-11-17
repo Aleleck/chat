@@ -1,11 +1,19 @@
-<h1>
-    Welcome to the Landing Page!
-</h1>
+<div class="componente">
+    <div class="componente">
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item" *ngFor="let item of carouselItems; let i = index"
+                    [class.active]="i === currentIndex">
+                    <img src="{{ item.image }}" alt="{{ item.alt }}">
+                </div>
+            </div>
+            <button class="carousel-btn prev" (click)="prevSlide()">❮</button>
+            <button class="carousel-btn next" (click)="nextSlide()">❯</button>
+        </div>
 
-<div>
-    <p>Click Login to login to our system</p>
-    <p>OR</p>
-    <button mat-raised-button color="primary" routerLink="/sign-up">
-        Sign Up!
-    </button>
-</div>
+        <div class="button-container">
+            <button mat-raised-button color="primary" routerLink="/sign-up">
+                Registrarse
+            </button>
+        </div>
+    </div>

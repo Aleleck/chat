@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { user } from 'rxfire/auth';
-import { map, startWith, switchMap, tap, } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
+import { map, startWith, switchMap, tap } from 'rxjs/operators';
+import { combineLatest, of } from 'rxjs';
 import { ProfileUser } from 'src/app/models/user-profile';
 import { AuthService } from 'src/app/services/auth.service';
 import { ChatsService } from 'src/app/services/chats.service';
@@ -63,7 +63,17 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void { }
 
   createChat(otherUser: ProfileUser) {
-    this.chatsService.createChat(otherUser).subscribe();
+    this.chatsService.isExistingChat(otherUser?.uid).pipe(
+      switchMap((chatId) =>{
+        if (chatId){
+          return of(chatId);
+        }else{
+          return this.chatsService.createChat(otherUser);
+        }
+      })
+    ).subscribe((chatId) =>{
+      this.chatListControl.setValue(chatId);
+    })
   }
 
   sendMessage() {

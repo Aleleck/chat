@@ -28,6 +28,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { DateDisplayPipe } from './pipes/date-display.pipe';
 import { DatePipe } from '@angular/common';
 
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -56,7 +57,8 @@ import { DatePipe } from '@angular/common';
     MatMenuModule,
     MatAutocompleteModule,
     MatListModule,
-    MatDividerModule
+    MatDividerModule,
+    
   ],
   providers: [DatePipe],
   bootstrap: [AppComponent],

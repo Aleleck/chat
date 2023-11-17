@@ -52,8 +52,20 @@ export class ChatsService {
     )
   }
   
-  
-
+  isExistingChat(otherUserId: string): Observable<string | null>{
+    return this.myChats$.pipe(
+      take(1),
+      map(chats => {
+        
+        for(let i=0; i < chats.length; i++){
+          if(chats[i].userIds.includes(otherUserId)){
+            return chats[i].id;
+          }
+        }
+        return null
+      })
+    )
+  }
 
   addChatMesssage(chatId: string, message: string):Observable<any>{
     const ref = collection(this.firestore, 'chats', chatId, 'messages');
