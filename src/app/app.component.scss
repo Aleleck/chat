@@ -1,13 +1,19 @@
 mat-toolbar {
   justify-content: space-between;
-  background-color: rgb(216, 198, 202);
+  background: rgb(212, 242, 255);
+  background: linear-gradient(90deg, rgba(212, 242, 255, 1) 9%, rgba(24, 168, 255, 1) 53%, rgba(12, 47, 95, 1) 100%);
   border-end-end-radius: 50px;
 }
 
-.logo{
-  width: 15vw;
-  height: 10vh;
+.logo {
+  width: 50vw;
+  height: 30vh;
+  position: relative;
+  left: -140px;
 }
+
+
+
 .content {
   padding: 32px;
 }
