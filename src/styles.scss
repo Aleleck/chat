@@ -1,13 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~bootstrap/dist/css/bootstrap.min.css';
-
+@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
 html,
 body {
   height: 100%;
 }
+
 body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
+  background: rgb(24, 58, 105);
+    background: linear-gradient(0deg, rgba(24, 58, 105, 1) 23%, rgba(236, 250, 255, 1) 85%);
+    background-size: auto,
+      cover;
+    background-attachment: fixed,
+      fixed;
+    background-position: center,
+      center;
+
 }
 
 .form-container {

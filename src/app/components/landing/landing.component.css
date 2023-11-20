@@ -1,3 +1,36 @@
+#banner {
+    padding: 5em 0 4.75em 0;
+}
+
+
+#banner .inner {
+    margin: 0 auto;
+    width: 55em;
+}
+
+#banner h2 {
+    -moz-transition: opacity 0.5s ease, -moz-transform 0.5s ease, -moz-filter 0.25s ease;
+    -webkit-transition: opacity 0.5s ease, -webkit-transform 0.5s ease, -webkit-filter 0.25s ease;
+    -ms-transition: opacity 0.5s ease, -ms-transform 0.5s ease, -ms-filter 0.25s ease;
+    transition: opacity 0.5s ease, transform 0.5s ease, filter 0.25s ease;
+    -moz-transform: translateX(0);
+    -webkit-transform: translateX(0);
+    -ms-transform: translateX(0);
+    transform: translateX(0);
+    -moz-transition-delay: 0.65s;
+    -webkit-transition-delay: 0.65s;
+    -ms-transition-delay: 0.65s;
+    transition-delay: 0.65s;
+    -moz-filter: blur(0);
+    -webkit-filter: blur(0);
+    -ms-filter: blur(0);
+    filter: blur(0);
+    opacity: 1;
+    border-bottom: solid 2px rgba(255, 255, 255, 0.125);
+    font-size: 2.25em;
+    margin-bottom: 0.8em;
+    padding-bottom: 0.4em;
+}
 
 .componente {
     font-family: 'Arial', sans-serif;

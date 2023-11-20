@@ -1,10 +1,11 @@
-<div class="form-container mat-elevation-z5">
-  <h1>Sign Up a New User!</h1>
+<div class="entra">
+<div class="form-container mat-elevation-z5" id="dentro">
+  <h1>Registrate</h1>
   <form [formGroup]="signUpForm" (ngSubmit)="submit()">
     <mat-form-field>
       <input matInput placeholder="Name" formControlName="name" />
       <mat-error *ngIf="name?.errors?.['required']">
-        Name is required
+        Ingrese el nombre
       </mat-error>
     </mat-form-field>
     <mat-form-field>
@@ -42,7 +43,8 @@
         Passwords should match
     </mat-error>
     <div class="center margin-top">
-      <button type="submit" mat-raised-button color="primary">Sign Up!</button>
+      <button type="submit" mat-raised-button color="primary">Registrarse</button>
     </div>
   </form>
+</div>
 </div>

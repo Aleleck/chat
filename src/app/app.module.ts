@@ -57,7 +57,7 @@ import { DatePipe } from '@angular/common';
     MatMenuModule,
     MatAutocompleteModule,
     MatListModule,
-    MatDividerModule,
+    MatDividerModule
     
   ],
   providers: [DatePipe],

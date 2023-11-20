@@ -1,4 +1,32 @@
 <div class="componente">
+    <section id="banner">
+        <div class="inner">
+            <h2>This is Solid State</h2>
+            <div class="button-container">
+                <button mat-raised-button style="color:#ecfaff ; background-color:#0a4d9e ;"
+                    routerLink="/sign-up">
+                    Registrarse
+                </button>
+            </div>
+        </div>
+        <div class="carousel">
+            <div class="carousel-inner">
+                <div class="carousel-item" *ngFor="let item of carouselItems; let i = index"
+                    [class.active]="i === currentIndex">
+                    <img src="{{ item.image }}" alt="{{ item.alt }}">
+                </div>
+            </div>
+            <button class="carousel-btn prev" (click)="prevSlide()">❮</button>
+            <button class="carousel-btn next" (click)="nextSlide()">❯</button>
+        </div>
+    </section>
+
+</div>
+
+
+
+<!--
+<div class="componente">
     <div class="componente">
         <div class="carousel">
             <div class="carousel-inner">
@@ -18,4 +46,4 @@
             </button>
         </div>
     </div>
-</div>    
+</div>    -->

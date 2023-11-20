@@ -10,7 +10,6 @@
                 </mat-option>
             </mat-autocomplete>
         </div>
-
         <mat-selection-list [multiple]="false" [formControl]="chatListControl">
             <mat-divider></mat-divider>
             <mat-list-option *ngFor="let chat of myChats$ | async " [value]="chat.id">
@@ -30,7 +29,7 @@
             </mat-list-option>
         </mat-selection-list>
     </div>
-    <div class="messages mat-elevation-z5">
+    <div class="messages mat-elevation-z5" id="mes">
         <div class="messages-header" *ngIf="selectedChat$ | async as selectedChat; else noMessages">
             <img [src]="selectedChat.chatPic ? selectedChat.chatPic : 'assets/images/image-placeholder.png' ">
             <h2>{{selectedChat.chatName}}</h2>
